@@ -1,0 +1,6 @@
+SELECT y.name country , y.population population, array_count(NUM_RELIGIONS) AS num_religions FROM geo.world x , x.mondial.country y
+LET NUM_RELIGIONS = (CASE WHEN is_array(y.religions)
+THEN y.religions
+WHEN y.religions IS MISSING
+THEN []
+ELSE [y.religions] END );
