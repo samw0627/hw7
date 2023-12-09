@@ -1,0 +1,7 @@
+USE geo;
+SELECT Y.`-car_code` country_code, Y. name country_name , C.name seas
+FROM world AS X, X.mondial.country AS Y, (
+        SELECT Y.name AS name, COUNTRY
+        FROM world AS X, X.mondial.sea AS Y, split(Y.`-country`, ' ') AS 
+       COUNTRY) AS C
+WHERE Y.`-car_code` = C.COUNTRY
