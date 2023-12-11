@@ -1,7 +1,20 @@
 USE geo;
-SELECT Y.`-car_code` country_code, Y. name country_name , C.name seas
-FROM world AS X, X.mondial.country AS Y, (
-        SELECT Y.name AS name, COUNTRY
-        FROM world AS X, X.mondial.sea AS Y, split(Y.`-country`, ' ') AS 
-       COUNTRY) AS C
-WHERE Y.`-car_code` = C.COUNTRY
+SELECT DISTINCT B.name country_name, B.`-car_code` country_code, seas
+FROM world A, A.mondial.country B
+LET seas = (
+    SELECT 
+        C.name sea
+    FROM 
+        world AS X, 
+        X.mondial.country AS Y, 
+            (
+                SELECT Y.name AS name, 
+                COUNTRY
+                FROM world AS X, 
+                X.mondial.sea AS Y, 
+                split(Y.`-country`, ' ') 
+            AS COUNTRY) 
+        AS C
+    WHERE Y.`-car_code` = C.COUNTRY AND Y.`-car_code` = B.`-car_code`)
+WHERE array_count(seas) >= 2
+ORDER BY array_count(seas) DESC;
